@@ -11,6 +11,22 @@ async function getDOM(url) {
 	return cheerio.load(res.data)
 }
 
+async function getBlogPost(props = { offset: 0 }) {
+	let url = `${KDENLIVE_URL}${KDENLIVE_BLOG}`
+	let $ = await getDOM(url)
+
+	let articleEl = $('article.et_pb_post')[props.offset]
+	let titleEl = $(articleEl).find('.entry-title a')
+	let contentEl = $(articleEl).find('.post-content-inner')
+
+	let post = {}
+	post.title = titleEl.text().trim()
+	post.url = titleEl.attr('href')
+	post.content = contentEl.text().trim()
+
+	return post
+}
+
 async function getCommit(props = { offset: 0, branch: 'master' }) {
 	let url = `${INVENT_URL}${KDENLIVE_COMMITS}/${props.branch}`
 	let $ = await getDOM(url)
@@ -35,4 +51,4 @@ async function getCommit(props = { offset: 0, branch: 'master' }) {
 	return commit
 }
 
-export default { getCommit }
+export default { getBlogPost, getCommit }
