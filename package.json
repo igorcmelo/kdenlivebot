@@ -5,7 +5,8 @@
   "main": "kdenlivebot.js",
   "type": "module",
   "scripts": {
-    "build": ""
+    "start": "node ./kdenlivebot.js",
+    "build": "echo building"
   },
   "keywords": [],
   "author": "",

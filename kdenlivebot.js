@@ -62,4 +62,5 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 	bot.command("commits", onCommandCommits)
 	bot.command("posts", onCommandPosts)
 	bot.launch()
+	console.log("Running...")
 })() 
