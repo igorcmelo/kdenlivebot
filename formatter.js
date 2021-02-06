@@ -9,6 +9,18 @@ function escapeSpecialChars(content) {
 	return escaped
 }
 
+function formatIssue(issue) {
+	let titleLink = `[${escape(issue.title)}](${issue.url})`
+	let id = escape(`(${issue.id})`)
+	let authorLink = `[${escape(issue.author.username)}](${issue.author.profileUrl})`
+	let timeAgo = moment(issue.datetime).fromNow()
+
+	return (
+		`Issue: ${titleLink} ${id}\n` +
+		`— by ${authorLink}, _${timeAgo}_`
+	)
+}
+
 function formatCommit(commit) {
 	let escaped = escapeSpecialChars(commit)
 	let timeAgo = moment(commit.datetime).fromNow()
@@ -28,4 +40,4 @@ function formatPost(post) {
 	)
 }
 
-export default { formatCommit, formatPost }
+export default { formatIssue, formatCommit, formatPost }
