@@ -26,21 +26,35 @@ function formatIssue(issue) {
 }
 
 function formatCommit(commit) {
-	let escaped = escapeSpecialChars(commit)
+	let messageLink = `[${escape(commit.message)}](${commit.url})`
+	let authorLink = `[${escape(commit.author.username)}](${commit.author.profileUrl})`
 	let timeAgo = moment(commit.datetime).fromNow()
+
 	return (
-		`Commit: "${escaped.message}" (${escaped.shaShort})\n` +
-		`by ${escaped.author.username}, ${timeAgo}\n`
+		`Commit: ${messageLink} \\(${commit.shaShort}\\)\n` +
+		`— by ${authorLink}, ${timeAgo}`
 	)
 }
 
 function formatPost(post) {
-	let escaped = escapeSpecialChars(post)
+	let titleLink = `[${escape(post.title)}](${post.url})`
+	let authorLink = `[${escape(post.author.name)}](${post.author.postsUrl})`
 
+	// if was posted today, it says "today"
+	let now = moment(new Date())
+	let timeAgo = "today"
+	if (now.diff(post.date, 'days'))
+		timeAgo = moment(post.date).fromNow()
+
+	let meta = `— by ${authorLink}, _${timeAgo}_`
+	let content = escape(post.content)
+	let readMore = `[READ MORE](${post.url})`
+	
 	return (
-		`${escaped.title}\n\n` +
-		`${escaped.content}\n\n` + 
-		`${escaped.url}` 
+		`News: ${titleLink}\n` +
+		`${meta}\n\n` + 
+		`${content}\n\n` + 
+		`${readMore}`
 	)
 }
 
