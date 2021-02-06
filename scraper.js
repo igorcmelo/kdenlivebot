@@ -46,10 +46,20 @@ async function getBlogPost(props = { offset: 0 }) {
 	let contentEl = $(articleEl).find('.post-content-inner')
 
 	let post = {}
+	let author = {}
 	post.title = titleEl.text().trim()
 	post.url = titleEl.attr('href')
 	post.content = contentEl.text().trim()
 
+	$ = await getDOM(post.url)
+	let metaEl = $('.post-meta')
+	let authorEl = $(metaEl).find('.author a')
+
+	post.date = new Date($(metaEl).find('.published').text().trim())
+	author.name = authorEl.text().trim()
+	author.postsUrl = authorEl.attr('href')
+
+	post.author = author
 	return post
 }
 
