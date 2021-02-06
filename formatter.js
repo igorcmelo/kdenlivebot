@@ -1,12 +1,16 @@
 import moment from 'moment'
 
-function escapeSpecialChars(content) {
-	// let regex = new RegExp("")
-	// if (typeof content == 'object')
-	// 	for (let [key, value] of Object.entries(content))
-	// 		content[key] = escapeSpecialChars(value)
-	let escaped = content
-	return escaped
+let regex = /(\-|\+|\(|\)|\.|\#)/gm
+
+function escape(content) {
+	if (typeof content == 'object')
+		for (let [key, value] of Object.entries(content))
+			content[key] = escape(value)
+	
+	if (typeof content == 'string')
+		return content.replace(regex, '\\$&')
+	
+	return content
 }
 
 function formatIssue(issue) {
